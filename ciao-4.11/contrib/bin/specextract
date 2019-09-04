@@ -30,10 +30,10 @@ This script is an enhanced Python translation of the original CIAO tool specextr
 
 """
 
-__version__ = "CIAO 4.10"
+__version__ = "CIAO 4.11"
 
 toolname = "specextract"
-__revision__ = "11 May 2018"
+__revision__ = "03 September 2019"
 
 
 ##########################################################################
@@ -52,7 +52,7 @@ import pycrates as pcr
 
 from ciao_contrib.logger_wrapper import initialize_logger, make_verbose_level, set_verbosity, handle_ciao_errors, get_verbosity
 from ciao_contrib.param_wrapper import open_param_file
-from ciao_contrib.runtool import dmextract, mkrmf, mkacisrmf, mkwarf, dmgroup, dmhedit, calquiz, dmcopy, dmstat, acis_fef_lookup, mkarf, asphist, sky2tdet, arfcorr, combine_spectra, ardlib, acis_set_ardlib, dmmakereg, dmlist, dmkeypar, dmcoords, stk_build, stk_read_num, stk_count, add_tool_history
+from ciao_contrib.runtool import dmextract, mkrmf, mkacisrmf, mkwarf, dmgroup, dmhedit, calquiz, dmcopy, dmstat, acis_fef_lookup, mkarf, asphist, sky2tdet, arfcorr, combine_spectra, ardlib, acis_set_ardlib, dmmakereg, dmlist, dmkeypar, dmcoords, stk_build, stk_read_num, stk_count, add_tool_history, dmhistory
 from ciao_contrib.cxcdm_wrapper import get_block_info_from_file, get_info_from_file
 import ciao_contrib.cxcdm_wrapper as dmw
 from ciao_contrib.cxcdm_wrapper import open_block_from_file, close_block
@@ -2965,7 +2965,7 @@ def specextract(args):
 
          # Set bpixfile argument passes to set_badpix().
 
-         if dobpix==1:
+         if dobpix == 1:
 
              if 1 != bpix_count:
                  bpix_arg  = bpix_stk[ii] #stk_read_num(bpix_stk, ii)
@@ -3141,6 +3141,27 @@ def specextract(args):
 
          if bell_nh not in [None,"-",0.0]:
              edit_headers(verbose, phafile, "Bell_nH", bell_nh, unit="10**22 cm**-2", comment="galactic HI column density") #comment="galactic neutral hydrogen column density at the source position using the Bell Labs survey, via COLDEN."
+
+
+         # add AREASCAL value from blanksky BKGSCAL value
+         if srcbkg=="bkg":
+             dmhistory.punlearn()
+             dmhistory.infile = fullfile
+             dmhistory.tool = "blanksky"
+
+             try:
+                 bsky_status = dmhistory()
+             except OSError:
+                 bsky_status = None
+
+             if bsky_status != None:
+                 src_cr = pcr.read_file("{}[#row=1]".format(get_filename(src_stk[ii])))
+                 ccdid = src_cr.get_column("CCD_ID").values[0]
+                 src_cr.__del__()
+
+                 bkgscale = fileio.get_keys_from_file(fullfile)["BKGSCAL{}".format(ccdid)]
+
+                 edit_headers(verbose, phafile, "AREASCAL", bkgscale, comment="blanksky background scaling factor derived by the 'blanksky' script")
 
 
          # NB: If 'ret' is null (b/c dmextract() fails), the script should
