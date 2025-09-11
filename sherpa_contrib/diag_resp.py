@@ -49,7 +49,7 @@ or
 
 """
 
-__revision__ = "20 October 2024"
+__revision__ = "10 September 2025"
 
 import os
 import warnings
@@ -618,7 +618,7 @@ def _fix_bin_edges(elo: npt.NDArray, ehi: npt.NDArray,
     """
     Tweak energy bin edge values that are below the ethresh replacement value.
     """
-    
+
     ind_lo = [ i for i,E in enumerate(elo) if E < ethresh ]
     ind_hi = [ i for i,E in enumerate(ehi) if E < ethresh ]
 
@@ -662,11 +662,10 @@ def build_resp(emin, emax, offset: int, ethresh: float|None = 1e-12):
         ### in sherpa/astro/instrument.py, or use a version test on
         ### whether this incrementation should be done
 
-        major,minor,micro = shpver.split(".")
-        ver = float(f"{major}.{minor}")
-        #ver_micro = int(micro)
+        major, minor, *_ = shpver.split(".")
+        ver = (int(major), int(minor)) # tuple( map( int,(major,minor) ) )
 
-        if ver < 4.17 and offset != 1:
+        if ver < (4,17) and offset != 1:
             diag_rmf.f_chan += offset - 1
 
         #################################################################
@@ -807,12 +806,11 @@ def mkdiagresp(telescope: str = "Chandra",
     """
 
     if refspec is not None:
-        if isinstance(refspec,str):
-            # speckw = _get_file_header(refspec)
-            speckw = get_keys_from_file(refspec)
-
-        if isinstance(refspec,DataPHA):
-            speckw = refspec.header
+        match refspec:
+            case str():
+                speckw = get_keys_from_file(refspec)
+            case DataPHA():
+                speckw = refspec.header
 
         for k,v in speckw.items():
             if isinstance(v,str) and v.lower() in ['none','']:
