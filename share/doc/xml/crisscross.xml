@@ -205,7 +205,7 @@
 	  <LINE>&pr; chandra_repro 3498</LINE>
 
 	  <LINE>&pr; punlearn fluximage</LINE>
-	  <LINE>&pr; 3498/repro/acisf03498_repro_evt2.fits binsize=2.0 bands=broad \</LINE>
+	  <LINE>&pr; fluximage 3498/repro/acisf03498_repro_evt2.fits binsize=2.0 bands=broad \</LINE>
 	  <LINE>outroot=acisf03498 psfecf=0.9 clobber=yes</LINE>
 
 	  <LINE>&pr; punlearn wavdetect</LINE>
@@ -253,8 +253,8 @@
 	  <LINE>&pr; punlearn clean_spec</LINE>
 
 	  <LINE>&pr; clean_spec infile=3/repro/acisf00003_repro_pha2.fits \</LINE>
-	  <LINE>conf_file=cc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/\</LINE>
-	  <LINE>confused_src_397_consolidated_obsID_3.fits spec_root=tet1oriC</LINE>
+	  <LINE>conf_file=cc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/confused_src_397_consolidated_obsID_3.fits \</LINE>
+	  <LINE>spec_root=tet1oriC</LINE>
 
 	</SYNTAX>
 	<DESC>
@@ -275,18 +275,18 @@
 	<SYNTAX>
 	  
       <LINE>&pr; punlearn chandra_repro</LINE>
-	  <LINE>&pr; chandra_repro indir=3 outdir=custom_hetg_extraction root=tet1oriE \</LINE>
+	  <LINE>&pr; chandra_repro indir=3 outdir=3/custom_hetg_extraction root=tet1oriE \</LINE>
       <LINE>tg_zo_position='83.8156671,-5.3861617'</LINE>
 
       <LINE>&pr; punlearn crisscross</LINE>
       <LINE>&pr; crisscross infile=3/custom_hetg_extraction/tet1oriE_repro_evt2.fits \</LINE>
-      <LINE>outdir=cc_singlesrc_outdir main_list=all_srcs.fits single_src_pos='83.8156671,-5.3861617'\</LINE>
+      <LINE>outdir=cc_singlesrc_outdir main_list=all_srcs.fits single_src_pos='83.8156671,-5.3861617' \</LINE>
       <LINE>single_src_root='tet1oriE' mode=a</LINE>
 
       <LINE>&pr; punlearn clean_spec</LINE>
       <LINE>&pr; clean_spec infile=3/custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
-      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/\</LINE>
-      <LINE>confused_tet1oriE_consolidated_obsID_3.fits spec_root=tet1oriC</LINE>
+      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/confused_tet1oriE_consolidated_obsID_3.fits \</LINE>
+      <LINE>spec_root=tet1oriC mode=a</LINE>
 
 
 	</SYNTAX>
@@ -771,7 +771,7 @@
       </PARA>
     </BUGS>
 
-    <LASTMODIFIED>June 2026</LASTMODIFIED>
+    <LASTMODIFIED>July 2026</LASTMODIFIED>
 
   </ENTRY>
 </cxchelptopics>

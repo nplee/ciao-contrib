@@ -68,6 +68,8 @@ def run_crisscross():
             pars[k] = True
         if isinstance(v, str) and v.lower() == "no":
             pars[k] = False
+        if isinstance(v, str) and v.lower() == "none":
+            pars[k] = None
 
     # Send ciao input to crisscross
     cc.run_crisscross(

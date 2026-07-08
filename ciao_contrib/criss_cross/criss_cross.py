@@ -15,12 +15,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-# List of things I still need to do:
-# - add back in ds9 figure generation so users can see where confusion occurs on the evt2 fits image.
-# - add functionality for user to calculate confusion between two selected sources in a field of view and print results to screen.
-# - Write parameters values used to run into header (either as history or as keywords)
-##########################################################################################
-##########################################################################################
+
 ##########################################################################################
 import glob
 import os
@@ -2150,7 +2145,7 @@ def run_crisscross(
         )
         if dir_exists and not clobber_par:
             print(
-                f"\nClobber set to false and output directory {output_dir} exists. If you wish to overwrite files please set clobber=True\n"
+                f"\nClobber set to false and output directory {output_dir} exists. If you wish to overwrite files please set clobber\n"
             )
             continue
 

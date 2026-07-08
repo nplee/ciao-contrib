@@ -66,18 +66,18 @@
 	<SYNTAX>
 	  
       <LINE>&pr; punlearn chandra_repro</LINE>
-	  <LINE>&pr; chandra_repro indir=3 outdir=custom_hetg_extraction root=tet1oriE \</LINE>
+	  <LINE>&pr; chandra_repro indir=3 outdir=3/custom_hetg_extraction root=tet1oriE \</LINE>
       <LINE>tg_zo_position='83.8156671,-5.3861617'</LINE>
 
       <LINE>&pr; punlearn crisscross</LINE>
       <LINE>&pr; crisscross infile=3/custom_hetg_extraction/tet1oriE_repro_evt2.fits \</LINE>
-      <LINE>outdir=cc_singlesrc_outdir main_list=all_srcs.fits single_src_pos='83.8156671,-5.3861617'\</LINE>
+      <LINE>outdir=cc_singlesrc_outdir main_list=all_srcs.fits single_src_pos='83.8156671,-5.3861617' \</LINE>
       <LINE>single_src_root='tet1oriE' mode=a</LINE>
 
       <LINE>&pr; punlearn clean_spec</LINE>
       <LINE>&pr; clean_spec infile=3/custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
-      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/\</LINE>
-      <LINE>confused_tet1oriE_consolidated_obsID_3.fits spec_root=tet1oriC</LINE>
+      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/confused_tet1oriE_consolidated_obsID_3.fits \</LINE>
+      <LINE>spec_root=tet1oriE resp_dir=3/custom_hetg_extraction/tg mode=a</LINE>
 
 
 	</SYNTAX>
@@ -101,9 +101,9 @@
 	<SYNTAX>
 
 	  <LINE>&pr; punlearn clean_spec</LINE>
-	  <LINE>&pr; clean_spec infile=custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
-      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/\</LINE>
-      <LINE>confused_tet1oriE_consolidated_obsID_3.fits spec_root=tet1oriE_cleaned mode=a</LINE>
+	  <LINE>&pr; clean_spec infile=3/custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
+      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/confused_tet1oriE_consolidated_obsID_3.fits \</LINE>
+      <LINE>spec_root=tet1oriE_ex2 mode=a</LINE>
   
 	</SYNTAX>
 	<DESC>
@@ -122,13 +122,13 @@
 	<SYNTAX>
 
 	  <LINE>&pr; punlearn stk_build</LINE>
-	  <LINE>&pr; stk_build infile= 'custom_hetg_extraction/tg/tet1oriE_repro_heg_p1.arf \</LINE>
-      <LINE>custom_hetg_extraction/tg/tet1oriE_repro_heg_m1.arf' outfile=arf.lis clobber=yes</LINE>
+	  <LINE>&pr; stk_build infile= '3/custom_hetg_extraction/tg/tet1oriE_repro_heg_p1.arf \</LINE>
+      <LINE>3/custom_hetg_extraction/tg/tet1oriE_repro_heg_m1.arf' outfile=arf.lis clobber=yes</LINE>
 
 	  <LINE>&pr; punlearn clean_spec</LINE>
-	  <LINE>&pr; clean_spec infile=custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
-      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/\</LINE>
-      <LINE>confused_tet1oriE_consolidated_obsID_3.fits spec_root=tet1oriE_heg_spec arf_file=@arf.lis mode=a</LINE>
+	  <LINE>&pr; clean_spec infile=3/custom_hetg_extraction/tet1oriE_repro_pha2.fits \</LINE>
+      <LINE>conf_file=cc_singlesrc_outdir/output_dir_obsid_3/confusion_output_files/table_fits_data/confused_tet1oriE_consolidated_obsID_3.fits \</LINE>
+      <LINE>spec_root=tet1oriE_heg_spec arf_file=@arf.lis mode=a</LINE>
   
 
 	</SYNTAX>
