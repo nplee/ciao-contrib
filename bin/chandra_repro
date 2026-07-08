@@ -34,7 +34,7 @@ Aim:
 """
 
 toolname = "chandra_repro"
-version = "29 June 2026"
+version = "08 July 2026"
 
 # import standard python modules as required
 #
@@ -787,7 +787,7 @@ def event1_inputs(params):
             # only have the *_osol1.fits files.  We can't handle that
             # right now.
 
-            if 'KALMAN' != keys["ASPTYPE"].value:
+            if "ASPTYPE" not in keys or 'KALMAN' != keys["ASPTYPE"].value:
                 #msg = "ASPTYPE='{}' mode data is not currently supported."
                 #raise NotImplementedError(msg.format(keys["ASPTYPE"].value))
                 params["__obc_mode__"] = True
