@@ -86,18 +86,23 @@ def build_dist(version, dirname, outdir, python="python3.11"):
         for dirpath, dirnames, filenames in os.walk(basedir):
             newdir = libdir / dirpath
             newdir.mkdir()
-
+            
             # copy over the files
             nfiles = 0
             for infile in filenames:
                 if infile.endswith('~') or infile.startswith('#'):
                     continue
 
-                shutil.copy2(f'{dirpath}/{infile}', str(newdir / infile))
+                if "criss_cross/input_files" in dirpath:
+                    shutil.copy2(f'{dirpath}/{infile}', f"{outdir}/data")
+                else:
+                    shutil.copy2(f'{dirpath}/{infile}', str(newdir / infile))
+
                 nfiles += 1
 
             print(f'Copy to lib/{python}/site-packages/{dirpath}: {nfiles} files')
-
+    
+            
     # Create the egg info file: is it needed?
     #
     if python == 'python':
@@ -165,7 +170,7 @@ Platform: UNKNOWN
         print(f"Updated VERSION file: {datestr}")
 
 
-def make_tarfile(tarfilegz, dname):
+def make_tarfile(tarfilegz, dname, pyver):
     """Create versioned tar file"""
 
     print(f"Building {tarfilegz}")
@@ -175,11 +180,21 @@ def make_tarfile(tarfilegz, dname):
     # sbp.check_call(["tar", "chf", tarfile, "./" + cver["root"]])
     #
     args = ["tar"]
-    for ename in [".gitignore", "tests", "__pycache__"]:
+    for ename in [".gitignore",
+                  "tests",
+                  "__pycache__"]:
         args.append("--exclude={}".format(ename))
 
-    args.extend(["-czf", tarfilegz, f"./{dname}"])
+    tarfilegz = tarfilegz.rstrip(".gz")
+        
+    args.extend(["-cf", tarfilegz, f"./{dname}"])
     sbp.check_call(args)
+
+    sbp.check_call(["tar","-f", tarfilegz, "-r",
+                    f"./{dname}/contrib/lib/python{pyver}/site-packages/ciao_contrib/criss_cross/tests"])
+
+    sbp.check_call(["gzip", tarfilegz])
+
     print(f"\nCreated: {tarfilegz}")
 
 
@@ -259,4 +274,4 @@ if __name__ == "__main__":
     with TemporaryDirectory(prefix=dirname) as tmpdir:
         build_dist(version, dirname, tmpdir, f"python{pyver}")
         os.chdir(tmpdir)
-        make_tarfile(tarfilegz, dirname)
+        make_tarfile(tarfilegz, dirname, pyver)
